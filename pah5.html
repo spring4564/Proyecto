@@ -1,38 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Juego de adivinanza</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Juego de Adivinanza</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+      color: #333;
+      text-align: center;
+      padding-top: 100px;
+      margin: 0;
+      height: 100vh;
+    }
+
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 18px;
+    }
+
+    input[type="number"] {
+      padding: 10px;
+      font-size: 16px;
+      width: 200px;
+      border: 2px solid #3498db;
+      border-radius: 5px;
+      outline: none;
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    #resultado {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 20px;
+    }
+  </style>
 </head>
 <body>
   <h1>Adivina el número</h1>
   <p>Estoy pensando en un número entre 1 y 100. ¿Puedes adivinarlo?</p>
-  <input type="number" id="numero" placeholder="Ingresa tu número">
+  <input type="number" id="numero" placeholder="Ingresa tu número" min="1" max="100">
   <button id="enviar">Enviar</button>
   <p id="resultado"></p>
 
-  <script src="script.js"></script>
-  
-  
-  
+  <script>
+    const numeroAleatorio = Math.floor(Math.random() * 100) + 1;
+    let intentos = 0;
+
+    document.getElementById("enviar").addEventListener("click", () => {
+      const numeroIngresado = parseInt(document.getElementById("numero").value);
+      const resultado = document.getElementById("resultado");
+
+      if (isNaN(numeroIngresado) || numeroIngresado < 1 || numeroIngresado > 100) {
+        resultado.textContent = "Por favor, ingresa un número válido entre 1 y 100.";
+        resultado.style.color = "#e74c3c"; // rojo para errores
+        return;
+      }
+
+      intentos++;
+
+      if (numeroIngresado === numeroAleatorio) {
+        resultado.textContent = `¡Felicidades! Adivinaste el número en ${intentos} intento${intentos > 1 ? 's' : ''}.`;
+        resultado.style.color = "#27ae60"; // verde para acierto
+        document.getElementById("enviar").disabled = true;
+      } else if (numeroIngresado < numeroAleatorio) {
+        resultado.textContent = "El número es mayor. Intenta de nuevo.";
+        resultado.style.color = "#f39c12"; // naranja
+      } else {
+        resultado.textContent = "El número es menor. Intenta de nuevo.";
+        resultado.style.color = "#f39c12";
+      }
+    });
+  </script>
 </body>
-<script>
-    let numeroAleatorio = Math.floor(Math.random() * 100) + 1;
-let intentos = 0;
-
-document.getElementById("enviar").addEventListener("click", () => {
-  let numeroIngresado = parseInt(document.getElementById("numero").value);
-  intentos++;
-
-  if (numeroIngresado === numeroAleatorio) {
-    document.getElementById("resultado").innerHTML = ¡Felicidades! Adivinaste el número en ${intentos} intentos.;
-  } else if (numeroIngresado < numeroAleatorio) {
-    document.getElementById("resultado").innerHTML = "El número es mayor. Intenta de nuevo.";
-  } else {
-    document.getElementById("resultado").innerHTML = "El número es menor. Intenta de nuevo.";
-  }
-});
-</script>
 </html>
